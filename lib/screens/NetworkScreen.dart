@@ -4,6 +4,13 @@ import 'package:webview_test/providers/connect_provider.dart';
 
 class NetworkScreen extends StatefulWidget {
   NetworkScreen({Key? key}) : super(key: key);
+  static const String routeName = '/network';
+
+  static Route route() {
+    return MaterialPageRoute(
+        settings: const RouteSettings(name: routeName),
+        builder: (_) => NetworkScreen());
+  }
 
   @override
   State<NetworkScreen> createState() => _NetworkScreenState();

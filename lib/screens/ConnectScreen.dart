@@ -8,6 +8,14 @@ import 'package:webview_test/services/firebase_service.dart';
 class ConnectScreen extends StatefulWidget {
   ConnectScreen({Key? key}) : super(key: key);
 
+  static const String routeName = '/connect';
+
+  static Route route() {
+    return MaterialPageRoute(
+        settings: const RouteSettings(name: routeName),
+        builder: (_) => ConnectScreen());
+  }
+
   @override
   State<ConnectScreen> createState() => _ConnectScreenState();
 }
@@ -23,10 +31,9 @@ class _ConnectScreenState extends State<ConnectScreen> {
       return NetworkScreen();
     } else if (connectProvider.isUrl == false &&
         connectProvider.urlWebview == '') {
-      return const Scaffold(
-          body: Center(
-        child: Text('Заглушка'),
-      ));
+      return Home(
+        idx: 0,
+      );
     } else if (connectProvider.urlWebview != '') {
       return const Scaffold(
         body: Center(
