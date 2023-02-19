@@ -3,9 +3,11 @@ import 'package:webview_test/models/Task/Task.dart';
 import 'package:webview_test/screens/ChokeScreen.dart';
 import 'package:webview_test/screens/ConnectScreen.dart';
 import 'package:webview_test/screens/DiaryScreen.dart';
+import 'package:webview_test/screens/ErrorScreen.dart';
 import 'package:webview_test/screens/NetworkScreen.dart';
 import 'package:webview_test/screens/TaskScreen.dart';
 import 'package:webview_test/screens/TasksScreen.dart';
+import 'package:webview_test/screens/WebviewScreen.dart';
 
 class AppRouter {
   static Route onGenerateRoute(RouteSettings settings) {
@@ -14,8 +16,12 @@ class AppRouter {
     switch (settings.name) {
       case ConnectScreen.routeName:
         return ConnectScreen.route();
+      case WebviewScreen.routeName:
+        return WebviewScreen.route(urlWebview: settings.arguments as String);
       case NetworkScreen.routeName:
         return NetworkScreen.route();
+      case ErrorScreen.routeName:
+        return ErrorScreen.route();
       case Home.routeName:
         return Home.route(idx: settings.arguments as int);
       case DiaryList.routeName:

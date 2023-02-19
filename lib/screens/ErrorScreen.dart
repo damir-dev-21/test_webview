@@ -2,27 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_test/providers/connect_provider.dart';
 
-class NetworkScreen extends StatefulWidget {
-  NetworkScreen({Key? key}) : super(key: key);
-  static const String routeName = '/network';
+class ErrorScreen extends StatefulWidget {
+  const ErrorScreen({Key? key}) : super(key: key);
+  static const String routeName = '/error';
 
   static Route route() {
     return MaterialPageRoute(
         settings: const RouteSettings(name: routeName),
-        builder: (_) => NetworkScreen());
+        builder: (_) => ErrorScreen());
   }
 
   @override
-  State<NetworkScreen> createState() => _NetworkScreenState();
+  State<ErrorScreen> createState() => _ErrorScreenState();
 }
 
-class _NetworkScreenState extends State<NetworkScreen> {
+class _ErrorScreenState extends State<ErrorScreen> {
   bool isLoad = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: SizedBox(),
+        title: const Text("Error"),
+        centerTitle: true,
+        leading: const SizedBox(),
         actions: [
           IconButton(
               onPressed: () {
@@ -41,8 +44,8 @@ class _NetworkScreenState extends State<NetworkScreen> {
       ),
       body: Center(
         child: isLoad
-            ? const CircularProgressIndicator()
-            : const Text('Необходим доступ к сети'),
+            ? CircularProgressIndicator()
+            : Text('Something will happened!'),
       ),
     );
   }

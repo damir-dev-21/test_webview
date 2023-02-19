@@ -47,8 +47,7 @@ class _TaskScreenState extends State<TaskScreen> {
     super.initState();
     title = widget.task.title;
     desc = widget.task.desc;
-    videoUrl =
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4';
+    videoUrl = widget.task.videoUrl;
     week = widget.task.weekDay;
 
     if (videoUrl != '') {

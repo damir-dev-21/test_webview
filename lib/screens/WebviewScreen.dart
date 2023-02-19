@@ -1,67 +1,3 @@
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:firebase_remote_config/firebase_remote_config.dart';
-// import 'package:flutter/material.dart';
-// import 'package:hive/hive.dart';
-// import 'package:hive_flutter/hive_flutter.dart';
-// import 'package:provider/provider.dart';
-// import 'package:webview_test/config/app_router.dart';
-// import 'package:webview_test/models/Diaries/Diaries.dart';
-// import 'package:webview_test/models/Diary/Diary.dart';
-// import 'package:webview_test/models/Task/Task.dart';
-// import 'package:webview_test/providers/connect_provider.dart';
-// import 'package:webview_test/providers/diary_provider.dart';
-// import 'package:webview_test/screens/ConnectScreen.dart';
-// import 'package:webview_test/services/firebase_service.dart';
-
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-
-//   await Firebase.initializeApp();
-//   await FirebaseRemoteConfigService().initialize();
-
-//   await Hive.initFlutter();
-//   Hive.registerAdapter(TaskAdapter());
-//   Hive.registerAdapter(DiaryAdapter());
-//   Hive.registerAdapter(DiariesAdapter());
-//   await Hive.openBox<Diaries>('diaries');
-
-//   ConnectProvider connectProvider = ConnectProvider();
-//   DiaryProvider diaryProvider = DiaryProvider();
-
-//   await connectProvider.checkInitialize();
-//   await connectProvider.checkIsEmu();
-//   diaryProvider.getStatus();
-
-//   runApp(MultiProvider(
-//     providers: [
-//       ChangeNotifierProvider(create: (_) => connectProvider),
-//       ChangeNotifierProvider(create: (_) => diaryProvider),
-//     ],
-//     // ignore: prefer_const_constructors
-//     child: MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: 'Test Webview',
-//       onGenerateRoute: AppRouter.onGenerateRoute,
-//       initialRoute: ConnectScreen.routeName,
-//     ),
-//   ));
-// }
-
-// // class MyApp extends StatelessWidget {
-// //   const MyApp({super.key});
-
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return
-// //   }
-// // }
-
-// Copyright 2013 The Flutter Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-// ignore_for_file: public_member_api_docs
-
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -70,85 +6,33 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-// #docregion platform_imports
-// Import for Android features.
 import 'package:webview_flutter_android/webview_flutter_android.dart';
-// Import for iOS features.
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
-// #enddocregion platform_imports
 
-void main() => runApp(const MaterialApp(home: WebViewExample()));
+class WebviewScreen extends StatefulWidget {
+  const WebviewScreen(this.urlWebview, {super.key});
 
-const String kNavigationExamplePage = '''
-<!DOCTYPE html><html>
-<head><title>Navigation Delegate Example</title></head>
-<body>
-<p>
-The navigation delegate is set to block navigation to the youtube website.
-</p>
-<ul>
-<ul><a href="https://www.youtube.com/">https://www.youtube.com/</a></ul>
-<ul><a href="https://www.google.com/">https://www.google.com/</a></ul>
-</ul>
-</body>
-</html>
-''';
+  static const String routeName = '/webview';
 
-const String kLocalExamplePage = '''
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<title>Load file or HTML string example</title>
-</head>
-<body>
+  static Route route({required String urlWebview}) {
+    return MaterialPageRoute(
+        settings: const RouteSettings(name: routeName),
+        builder: (_) => WebviewScreen(urlWebview));
+  }
 
-<h1>Local demo page</h1>
-<p>
-  This is an example page used to demonstrate how to load a local file or HTML
-  string using the <a href="https://pub.dev/packages/webview_flutter">Flutter
-  webview</a> plugin.
-</p>
-
-</body>
-</html>
-''';
-
-const String kTransparentBackgroundPage = '''
-  <!DOCTYPE html>
-  <html>
-  <head>
-    <title>Transparent background test</title>
-  </head>
-  <style type="text/css">
-    body { background: transparent; margin: 0; padding: 0; }
-    #container { position: relative; margin: 0; padding: 0; width: 100vw; height: 100vh; }
-    #shape { background: red; width: 200px; height: 200px; margin: 0; padding: 0; position: absolute; top: calc(50% - 100px); left: calc(50% - 100px); }
-    p { text-align: center; }
-  </style>
-  <body>
-    <div id="container">
-      <p>Transparent background test</p>
-      <div id="shape"></div>
-    </div>
-  </body>
-  </html>
-''';
-
-class WebViewExample extends StatefulWidget {
-  const WebViewExample({super.key});
+  final String urlWebview;
 
   @override
-  State<WebViewExample> createState() => _WebViewExampleState();
+  State<WebviewScreen> createState() => _WebviewScreenState();
 }
 
-class _WebViewExampleState extends State<WebViewExample> {
+class _WebviewScreenState extends State<WebviewScreen> {
   late final WebViewController _controller;
 
   @override
   void initState() {
     super.initState();
 
-    // #docregion platform_features
     late final PlatformWebViewControllerCreationParams params;
     if (WebViewPlatform.instance is WebKitWebViewPlatform) {
       params = WebKitWebViewControllerCreationParams(
@@ -161,7 +45,6 @@ class _WebViewExampleState extends State<WebViewExample> {
 
     final WebViewController controller =
         WebViewController.fromPlatformCreationParams(params);
-    // #enddocregion platform_features
 
     controller
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -177,23 +60,6 @@ class _WebViewExampleState extends State<WebViewExample> {
           onPageFinished: (String url) {
             debugPrint('Page finished loading: $url');
           },
-          onWebResourceError: (WebResourceError error) {
-            debugPrint('''
-Page resource error:
-  code: ${error.errorCode}
-  description: ${error.description}
-  errorType: ${error.errorType}
-  isForMainFrame: ${error.isForMainFrame}
-          ''');
-          },
-          onNavigationRequest: (NavigationRequest request) {
-            if (request.url.startsWith('https://www.youtube.com/')) {
-              debugPrint('blocking navigation to ${request.url}');
-              return NavigationDecision.prevent;
-            }
-            debugPrint('allowing navigation to ${request.url}');
-            return NavigationDecision.navigate;
-          },
         ),
       )
       ..addJavaScriptChannel(
@@ -204,15 +70,13 @@ Page resource error:
           );
         },
       )
-      ..loadRequest(Uri.parse('https://flutter.dev'));
+      ..loadRequest(Uri.parse(widget.urlWebview));
 
-    // #docregion platform_features
     if (controller.platform is AndroidWebViewController) {
       AndroidWebViewController.enableDebugging(true);
       (controller.platform as AndroidWebViewController)
           .setMediaPlaybackRequiresUserGesture(false);
     }
-    // #enddocregion platform_features
 
     _controller = controller;
   }
@@ -222,28 +86,14 @@ Page resource error:
     return WillPopScope(
       onWillPop: () async {
         if (await _controller.canGoBack()) {
-          await _controller.goBack();
-          return false;
+          print("onwill goback");
+          _controller.goBack();
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('No back history item')),
-          );
+          return Future.value(false);
         }
         return true;
       },
-      child: Scaffold(
-        backgroundColor: Colors.green,
-        appBar: AppBar(
-          title: const Text('Flutter WebView example'),
-          // This drop down menu demonstrates that Flutter widgets can be shown over the web view.
-          actions: <Widget>[
-            NavigationControls(webViewController: _controller),
-            SampleMenu(webViewController: _controller),
-          ],
-        ),
-        body: WebViewWidget(controller: _controller),
-        floatingActionButton: favoriteButton(),
-      ),
+      child: WebViewWidget(controller: _controller),
     );
   }
 
@@ -309,24 +159,24 @@ class SampleMenu extends StatelessWidget {
           case MenuOptions.clearCache:
             _onClearCache(context);
             break;
-          case MenuOptions.navigationDelegate:
-            _onNavigationDelegateExample();
-            break;
+          // case MenuOptions.navigationDelegate:
+          //   _onNavigationDelegateExample();
+          //   break;
           case MenuOptions.doPostRequest:
             _onDoPostRequest();
             break;
-          case MenuOptions.loadLocalFile:
-            _onLoadLocalFileExample();
-            break;
-          case MenuOptions.loadFlutterAsset:
-            _onLoadFlutterAssetExample();
-            break;
-          case MenuOptions.loadHtmlString:
-            _onLoadHtmlStringExample();
-            break;
-          case MenuOptions.transparentBackground:
-            _onTransparentBackground();
-            break;
+          // case MenuOptions.loadLocalFile:
+          //   _onLoadLocalFileExample();
+          //   break;
+          // case MenuOptions.loadFlutterAsset:
+          //   _onLoadFlutterAssetExample();
+          //   break;
+          // case MenuOptions.loadHtmlString:
+          //   _onLoadHtmlStringExample();
+          //   break;
+          // case MenuOptions.transparentBackground:
+          //   _onTransparentBackground();
+          //   break;
           case MenuOptions.setCookie:
             _onSetCookie();
             break;
@@ -448,14 +298,14 @@ class SampleMenu extends StatelessWidget {
     ));
   }
 
-  Future<void> _onNavigationDelegateExample() {
-    final String contentBase64 = base64Encode(
-      const Utf8Encoder().convert(kNavigationExamplePage),
-    );
-    return webViewController.loadRequest(
-      Uri.parse('data:text/html;base64,$contentBase64'),
-    );
-  }
+  // Future<void> _onNavigationDelegateExample() {
+  //   final String contentBase64 = base64Encode(
+  //     const Utf8Encoder().convert(kNavigationExamplePage),
+  //   );
+  //   return webViewController.loadRequest(
+  //     Uri.parse('data:text/html;base64,$contentBase64'),
+  //   );
+  // }
 
   Future<void> _onSetCookie() async {
     await cookieManager.setCookie(
@@ -480,22 +330,22 @@ class SampleMenu extends StatelessWidget {
     );
   }
 
-  Future<void> _onLoadLocalFileExample() async {
-    final String pathToIndex = await _prepareLocalFile();
-    await webViewController.loadFile(pathToIndex);
-  }
+  // Future<void> _onLoadLocalFileExample() async {
+  //   final String pathToIndex = await _prepareLocalFile();
+  //   await webViewController.loadFile(pathToIndex);
+  // }
 
-  Future<void> _onLoadFlutterAssetExample() {
-    return webViewController.loadFlutterAsset('assets/www/index.html');
-  }
+  // Future<void> _onLoadFlutterAssetExample() {
+  //   return webViewController.loadFlutterAsset('assets/www/index.html');
+  // }
 
-  Future<void> _onLoadHtmlStringExample() {
-    return webViewController.loadHtmlString(kLocalExamplePage);
-  }
+  // Future<void> _onLoadHtmlStringExample() {
+  //   return webViewController.loadHtmlString(kLocalExamplePage);
+  // }
 
-  Future<void> _onTransparentBackground() {
-    return webViewController.loadHtmlString(kTransparentBackgroundPage);
-  }
+  // Future<void> _onTransparentBackground() {
+  //   return webViewController.loadHtmlString(kTransparentBackgroundPage);
+  // }
 
   Widget _getCookieList(String cookies) {
     if (cookies == null || cookies == '""') {
@@ -511,16 +361,16 @@ class SampleMenu extends StatelessWidget {
     );
   }
 
-  static Future<String> _prepareLocalFile() async {
-    final String tmpDir = (await getTemporaryDirectory()).path;
-    final File indexFile = File(
-        <String>{tmpDir, 'www', 'index.html'}.join(Platform.pathSeparator));
+  // static Future<String> _prepareLocalFile() async {
+  //   final String tmpDir = (await getTemporaryDirectory()).path;
+  //   final File indexFile = File(
+  //       <String>{tmpDir, 'www', 'index.html'}.join(Platform.pathSeparator));
 
-    await indexFile.create(recursive: true);
-    await indexFile.writeAsString(kLocalExamplePage);
+  //   await indexFile.create(recursive: true);
+  //   await indexFile.writeAsString(kLocalExamplePage);
 
-    return indexFile.path;
-  }
+  //   return indexFile.path;
+  // }
 }
 
 class NavigationControls extends StatelessWidget {

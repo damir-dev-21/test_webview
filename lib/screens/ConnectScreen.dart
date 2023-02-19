@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_test/providers/connect_provider.dart';
 import 'package:webview_test/screens/ChokeScreen.dart';
+import 'package:webview_test/screens/ErrorScreen.dart';
 import 'package:webview_test/screens/NetworkScreen.dart';
+import 'package:webview_test/screens/WebviewScreen.dart';
 import 'package:webview_test/services/firebase_service.dart';
 
 class ConnectScreen extends StatefulWidget {
@@ -29,18 +31,13 @@ class _ConnectScreenState extends State<ConnectScreen> {
     ConnectProvider connectProvider = Provider.of<ConnectProvider>(context);
     if (connectProvider.isUrl && connectProvider.isConnect == false) {
       return NetworkScreen();
-    } else if (connectProvider.isUrl == false &&
-        connectProvider.urlWebview == '') {
-      return Home(
+    } else if (connectProvider.urlWebview == '' || connectProvider.isEmul) {
+      return const Home(
         idx: 0,
       );
     } else if (connectProvider.urlWebview != '') {
-      return const Scaffold(
-        body: Center(
-          child: Text('WebView'),
-        ),
-      );
+      return WebviewScreen(connectProvider.urlWebview);
     }
-    return SizedBox();
+    return ErrorScreen();
   }
 }
