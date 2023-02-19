@@ -49,7 +49,6 @@ class _TaskScreenState extends State<TaskScreen> {
     desc = widget.task.desc;
     videoUrl = widget.task.videoUrl;
     week = widget.task.weekDay;
-
     if (videoUrl != '') {
       setState(() {
         isLoading = true;
@@ -190,61 +189,64 @@ class _TaskScreenState extends State<TaskScreen> {
                   ),
                 ),
                 SizedBox(height: 20),
-                videoUrl != ''
+                widget.task.videoUrl != ''
                     ? isLoading
                         ? SizedBox(
                             height: 30,
                             child: Center(child: CircularProgressIndicator()))
                         : Container(
-                            child: _controller.value.isInitialized
-                                ? Stack(
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            isPlay = false;
-                                            _controller.pause();
-                                          });
-                                        },
-                                        child: AspectRatio(
-                                          aspectRatio:
-                                              _controller.value.aspectRatio,
-                                          child: VideoPlayer(_controller),
-                                        ),
-                                      ),
-                                      !isPlay
-                                          ? Positioned(
-                                              top: 90,
-                                              left: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      2 -
-                                                  30,
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  setState(() {
-                                                    isPlay = true;
-                                                    _controller.play();
-                                                  });
-                                                },
-                                                child: !isPlay
-                                                    ? Icon(
-                                                        Icons.play_circle,
-                                                        color: Colors.white,
-                                                        size: 50,
-                                                      )
-                                                    : Icon(
-                                                        Icons.stop_circle,
-                                                        color: Colors.white,
-                                                        size: 50,
-                                                      ),
-                                              ))
-                                          : SizedBox()
-                                    ],
-                                  )
-                                : Container(),
+                            child: Stack(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      isPlay = false;
+                                      _controller.pause();
+                                    });
+                                  },
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 150,
+                                    child: AspectRatio(
+                                      aspectRatio:
+                                          _controller.value.aspectRatio,
+                                      child: VideoPlayer(_controller),
+                                    ),
+                                  ),
+                                ),
+                                !isPlay
+                                    ? Positioned(
+                                        top: 50,
+                                        left:
+                                            MediaQuery.of(context).size.width /
+                                                    2 -
+                                                30,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              isPlay = true;
+                                              _controller.play();
+                                            });
+                                          },
+                                          child: !isPlay
+                                              ? Icon(
+                                                  Icons.play_circle,
+                                                  color: Colors.white,
+                                                  size: 50,
+                                                )
+                                              : Icon(
+                                                  Icons.stop_circle,
+                                                  color: Colors.white,
+                                                  size: 50,
+                                                ),
+                                        ))
+                                    : SizedBox()
+                              ],
+                            ),
                           )
-                    : SizedBox(),
+                    : SizedBox(
+                        height: 50,
+                      ),
                 SizedBox(
                   height: 20,
                 ),
