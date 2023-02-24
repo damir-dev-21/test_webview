@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "431947536091",
-    "project_id": "test-webview-732c8",
-    "storage_bucket": "test-webview-732c8.appspot.com"
+    "project_number": "216968087137",
+    "project_id": "tuned-df833",
+    "storage_bucket": "tuned-df833.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:431947536091:android:3d121151e0f07aea255efe",
+        "mobilesdk_app_id": "1:216968087137:android:905b8951979f521daa0c20",
         "android_client_info": {
-          "package_name": "com.example.webview_test"
+          "package_name": "nesine.bahis.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "431947536091-8jp2ohk2ir157h1oitenso6orlk3svtc.apps.googleusercontent.com",
+          "client_id": "216968087137-n8he4rb8eesivm03fo2i2523c2uvrvk0.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCUSHO2C5p-ao_DCjhg46cilmmoZ1XoZWY"
+          "current_key": "AIzaSyDXCcN6o3yEwFRExA4Cs9JJxib9mFGwt8I"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "431947536091-8jp2ohk2ir157h1oitenso6orlk3svtc.apps.googleusercontent.com",
+              "client_id": "216968087137-n8he4rb8eesivm03fo2i2523c2uvrvk0.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -87,13 +87,8 @@ class _WebviewScreenState extends State<WebviewScreen> {
       onWillPop: () async {
         if (await _controller.canGoBack()) {
           await _controller.goBack();
-          return false;
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('No back history item')),
-          );
         }
-        return true;
+        return false;
       },
       child: WebViewWidget(controller: _controller),
     );

@@ -3,6 +3,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_test/config/app_router.dart';
 import 'package:webview_test/models/Diaries/Diaries.dart';
@@ -18,6 +19,7 @@ void main() async {
 
   await Firebase.initializeApp();
   await FirebaseRemoteConfigService().initialize();
+  await initNotify();
 
   await Hive.initFlutter();
   Hive.registerAdapter(TaskAdapter());
@@ -45,4 +47,13 @@ void main() async {
       initialRoute: ConnectScreen.routeName,
     ),
   ));
+}
+
+Future<void> initNotify() async {
+  try {
+    await OneSignal.shared.promptUserForPushNotificationPermission();
+    await OneSignal.shared.setAppId("3a20a92d-3a40-4634-a97b-52810a2018ec");
+  } catch (e) {
+    print(e);
+  }
 }

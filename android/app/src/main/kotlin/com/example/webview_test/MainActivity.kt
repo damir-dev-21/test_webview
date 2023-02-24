@@ -1,4 +1,4 @@
-package com.example.webview_test
+package nesine.bahis.app
 
 import io.flutter.embedding.android.FlutterActivity
 
