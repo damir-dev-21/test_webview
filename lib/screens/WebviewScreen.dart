@@ -90,7 +90,11 @@ class _WebviewScreenState extends State<WebviewScreen> {
         }
         return false;
       },
-      child: WebViewWidget(controller: _controller),
+      child: Scaffold(
+          appBar: AppBar(
+            leading: SizedBox(),
+          ),
+          body: WebViewWidget(controller: _controller)),
     );
   }
 }

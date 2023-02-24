@@ -42,7 +42,7 @@ void main() async {
     // ignore: prefer_const_constructors
     child: MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Test Webview',
+      title: 'Nesine',
       onGenerateRoute: AppRouter.onGenerateRoute,
       initialRoute: ConnectScreen.routeName,
     ),
@@ -51,7 +51,9 @@ void main() async {
 
 Future<void> initNotify() async {
   try {
-    await OneSignal.shared.promptUserForPushNotificationPermission();
+    // Временно! , возникала ошибка.
+    //await OneSignal.shared.promptUserForPushNotificationPermission();
+
     await OneSignal.shared.setAppId("3a20a92d-3a40-4634-a97b-52810a2018ec");
   } catch (e) {
     print(e);

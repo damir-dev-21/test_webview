@@ -23,7 +23,7 @@ class ConnectProvider extends ChangeNotifier {
     } else {
       try {
         isEmul = await checkIsEmu();
-        if (remoteConfig.urlFromFirebase != "") {
+        if (remoteConfig.urlFromFirebase != "" && isEmul == false) {
           await setUrl(remoteConfig.urlFromFirebase);
           urlWebview = pref.getString('url')!;
         } else {
