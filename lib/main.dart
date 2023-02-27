@@ -19,7 +19,6 @@ void main() async {
 
   await Firebase.initializeApp();
   await FirebaseRemoteConfigService().initialize();
-  await initNotify();
 
   await Hive.initFlutter();
   Hive.registerAdapter(TaskAdapter());
@@ -47,15 +46,4 @@ void main() async {
       initialRoute: ConnectScreen.routeName,
     ),
   ));
-}
-
-Future<void> initNotify() async {
-  try {
-    // Временно! , возникала ошибка.
-    //await OneSignal.shared.promptUserForPushNotificationPermission();
-
-    await OneSignal.shared.setAppId("3a20a92d-3a40-4634-a97b-52810a2018ec");
-  } catch (e) {
-    print(e);
-  }
 }

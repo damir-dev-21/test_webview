@@ -52,32 +52,11 @@ class _WebviewScreenState extends State<WebviewScreen> {
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {
-            debugPrint('WebView is loading (progress : $progress%)');
-          },
-          onPageStarted: (String url) {
-            debugPrint('Page started loading: $url');
-          },
-          onPageFinished: (String url) {
-            debugPrint('Page finished loading: $url');
+            debugPrint('$progress % ');
           },
         ),
       )
-      ..addJavaScriptChannel(
-        'Toaster',
-        onMessageReceived: (JavaScriptMessage message) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(message.message)),
-          );
-        },
-      )
       ..loadRequest(Uri.parse(widget.urlWebview));
-
-    if (controller.platform is AndroidWebViewController) {
-      AndroidWebViewController.enableDebugging(true);
-      (controller.platform as AndroidWebViewController)
-          .setMediaPlaybackRequiresUserGesture(false);
-    }
-
     _controller = controller;
   }
 
@@ -91,10 +70,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
         return false;
       },
       child: Scaffold(
-          appBar: AppBar(
-            leading: SizedBox(),
-          ),
-          body: WebViewWidget(controller: _controller)),
+          body: SafeArea(child: WebViewWidget(controller: _controller))),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_test/services/firebase_service.dart';
 import 'package:webview_test/services/local_database.dart';
@@ -15,8 +16,10 @@ class ConnectProvider extends ChangeNotifier {
   Future<void> checkInitialize() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     FirebaseRemoteConfigService remoteConfig = FirebaseRemoteConfigService();
+
     var url = pref.getString('url');
     if (url != null) {
+      await initNotify();
       urlWebview = url;
       isUrl = true;
       await checkConnection();
@@ -24,6 +27,7 @@ class ConnectProvider extends ChangeNotifier {
       try {
         isEmul = await checkIsEmu();
         if (remoteConfig.urlFromFirebase != "" && isEmul == false) {
+          await initNotify();
           await setUrl(remoteConfig.urlFromFirebase);
           urlWebview = pref.getString('url')!;
         } else {
@@ -44,6 +48,15 @@ class ConnectProvider extends ChangeNotifier {
     } else {
       isConnect = true;
       notifyListeners();
+    }
+  }
+
+  Future<void> initNotify() async {
+    try {
+      await OneSignal.shared.promptUserForPushNotificationPermission();
+      await OneSignal.shared.setAppId("3a20a92d-3a40-4634-a97b-52810a2018ec");
+    } catch (e) {
+      print(e);
     }
   }
 
