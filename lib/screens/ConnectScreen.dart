@@ -35,9 +35,8 @@ class _ConnectScreenState extends State<ConnectScreen> {
       return const Home(
         idx: 0,
       );
-    } else if (connectProvider.urlWebview != '') {
-      return WebviewScreen(connectProvider.urlWebview);
+    } else {
+      return WebviewScreen(urlWebview: connectProvider.urlWebview);
     }
-    return ErrorScreen();
   }
 }

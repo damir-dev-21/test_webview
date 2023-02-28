@@ -67,7 +67,9 @@ class _TaskScreenState extends State<TaskScreen> {
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
+    if (videoUrl != '') {
+      _controller.dispose();
+    }
   }
 
   @override
@@ -83,18 +85,19 @@ class _TaskScreenState extends State<TaskScreen> {
         shadowColor: Colors.white,
         elevation: 1,
         actions: [
-          IconButton(
-              onPressed: () {
-                diaryProvider.deleteTask(widget.task);
-                Navigator.pushNamed(context, '/tasks',
-                    arguments: diaryProvider.diares
-                        .firstWhere((element) => element.week == week)
-                        .tasks);
-              },
-              icon: Icon(
-                Icons.delete,
-                color: Colors.redAccent,
-              ))
+          if (widget.task.id == 0)
+            IconButton(
+                onPressed: () {
+                  diaryProvider.deleteTask(widget.task);
+                  Navigator.pushNamed(context, '/tasks',
+                      arguments: diaryProvider.diares
+                          .firstWhere((element) => element.week == week)
+                          .tasks);
+                },
+                icon: Icon(
+                  Icons.delete,
+                  color: Colors.redAccent,
+                ))
         ],
       ),
       floatingActionButton: FloatingActionButton(
